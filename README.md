@@ -165,6 +165,18 @@ async function slideAndFade(el) {
 - `quadOut(0, 1, 0.5)` → 0.75 (already fast)
 - `quadInOut(0, 1, 0.5)` → 0.5 (halfway)
 
-## License
 
-MIT
+## A Hot Page Project
+
+This open-source project is built by the engineeers at [Hot Page](https://hot.page),
+a tool for web design and development.
+
+&nbsp;
+
+<p align="center">
+  <a href="https://hot.page" target="_blank">
+    <img width="250" src="https://static.hot.page/logo.png">
+  </a>
+</p>
+
+&nbsp;
