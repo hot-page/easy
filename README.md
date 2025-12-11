@@ -26,17 +26,17 @@ npm install @hot-page/easy
 ## Quick Start
 
 ```javascript
-import { Timer, cubicOut } from '@hot-page/easy'
+import { timer, cubicOut } from '@hot-page/easy'
 
 const ease = cubicOut(0, 100)
-new Timer(300, time => {
+timer(300, time => {
   el.style.opacity = ease(time)
 }).then(() => console.log('Animation complete!'))
 ```
 
 ## API
 
-### `new Timer(duration, tick)`
+### `timer(duration, tick)`
 
 Creates an animation timer that runs for the specified duration.
 
@@ -44,15 +44,15 @@ Creates an animation timer that runs for the specified duration.
 - `duration` (number): Animation duration in milliseconds
 - `tick` (function): Callback function called on each frame with normalized time (0-1)
 
-**Returns:** Timer instance (extends Promise) with `.cancel()` and `.restart()` methods
+**Returns:** Promise with `.cancel()` method
 
 **Example:**
 ```javascript
-const timer = new Timer(1000, time => {
+const t = timer(1000, time => {
   console.log(time) // 0 to 1
 })
 
-await timer // Wait for completion
+await t // Wait for completion
 ```
 
 ### Timer Methods
@@ -61,26 +61,15 @@ await timer // Wait for completion
 Stop the animation immediately.
 
 ```javascript
-const timer = new Timer(300, time => console.log(time))
-setTimeout(() => timer.cancel(), 100)
-```
-
-#### `.restart()`
-Restart the animation from the beginning. Returns a new Timer instance.
-
-```javascript
-let timer = new Timer(300, time => console.log(time))
-await timer
-
-timer = timer.restart() // Get new timer
-await timer // Wait for restart to complete
+const t = timer(300, time => console.log(time))
+setTimeout(() => t.cancel(), 100)
 ```
 
 #### `.then()`, `.finally()`
 Standard Promise methods for handling completion.
 
 ```javascript
-new Timer(300, time => animate(time))
+timer(300, time => animate(time))
   .then(() => console.log('Done!'))
   .finally(() => cleanup())
 ```
@@ -119,7 +108,7 @@ const value = quadOut(0, 100, 0.5) // 75
 **Curried (recommended):**
 ```javascript
 const ease = cubicOut(100, 300)
-new Timer(300, time => {
+timer(300, time => {
   el.style.transform = `translateX(${ease(time)}px)`
 })
 ```
@@ -130,7 +119,7 @@ const x = cubicOut(0, 200)
 const y = quadOut(0, 300)
 const opacity = sineOut(0, 1)
 
-new Timer(500, time => {
+timer(500, time => {
   el.style.transform = `translate(${x(time)}px, ${y(time)}px)`
   el.style.opacity = opacity(time)
 })
@@ -143,12 +132,12 @@ Use `async/await` or `.then()` to chain animations:
 ```javascript
 async function slideAndFade(el) {
   const slideIn = cubicOut(100, 300)
-  await new Timer(300, time => {
+  await timer(300, time => {
     el.style.transform = `translateX(${slideIn(time)}px)`
   })
 
   const fadeOut = quadOut(1, 0)
-  await new Timer(200, time => {
+  await timer(200, time => {
     el.style.opacity = fadeOut(time)
   })
 }

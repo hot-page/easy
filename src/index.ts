@@ -1,49 +1,32 @@
+interface TimerPromise extends Promise<void> {
+  cancel: () => void
+}
 
-export class Timer extends Promise<void> {
-  #startTime: number
-  #frameId: number
-  #duration: number
-  #tick: (time: number) => void
-  #resolve: () => void
+export function timer(duration: number, tick: (time: number) => void): TimerPromise {
+  let frameId: number = requestAnimationFrame(frame)
+  let startTime: number = performance.now()
+  let resolve: () => void
 
-  constructor(duration: number, tick: (time: number) => void) {
-    let resolve: () => void
-
-    super((res) => {
-      resolve = res
-    })
-
-    this.#duration = duration
-    this.#tick = tick
-    this.#startTime = performance.now()
-    this.#resolve = resolve!
-    this.#frameId = requestAnimationFrame(this.#ticker)
-  }
-
-  cancel() {
-    cancelAnimationFrame(this.#frameId)
-  }
-
-  restart() {
-    cancelAnimationFrame(this.#frameId)
-    return new Timer(this.#duration, this.#tick)
-  }
-
-  #ticker = (time: number) => {
-    time = (time - this.#startTime) / this.#duration
+  function frame(time: number) {
+    time = (time - startTime) / duration
 
     try {
-      this.#tick(Math.max(0, Math.min(1, time)))
+      tick(Math.max(0, Math.min(1, time)))
     } catch (error) {
       console.error(error)
     }
 
     if (time < 1) {
-      this.#frameId = requestAnimationFrame(this.#ticker)
+      frameId = requestAnimationFrame(frame)
     } else {
-      this.#resolve()
+      resolve()
     }
   }
+
+  const promise = new Promise<void>((res) => resolve = res) as TimerPromise
+  promise.cancel = () => cancelAnimationFrame(frameId)
+
+  return promise
 }
 
 type EasingFunction = (startValue: number, endValue: number, time: number) => number

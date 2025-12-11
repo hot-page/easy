@@ -2,6 +2,10 @@
   "name": "@hot-page/easy",
   "version": "0.0.2",
   "description": "A lightweight JavaScript animation library with simple timers and easing functions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hot-page/easy.git"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -18,7 +22,7 @@
     "src"
   ],
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "prepublishOnly": "npm run build"
@@ -30,7 +34,7 @@
     "timer",
     "requestAnimationFrame"
   ],
-  "author": "",
+  "author": "Hot Page",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.3.3",
