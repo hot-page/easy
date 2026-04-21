@@ -1,6 +1,6 @@
 {
   "name": "@hot-page/easy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A lightweight JavaScript animation library with simple timers and easing functions",
   "repository": {
     "type": "git",

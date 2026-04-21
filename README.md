@@ -1,19 +1,22 @@
 
 # Easy Animations
 
-A minimal JavaScript animation library with simple timers and Robert Penner's easing functions.
+A minimal JavaScript animation library with simple timers and Robert Penner's
+easing functions.
 
 **Goals:**
 - Easy way to do JavaScript animations
-- Promise-based API for chaining
 - Separate easing functions and timers
 - Curried easing functions for clean, readable code
+- Promise-based API for chaining
+- Use the expressiveness of native JS control flow for timelines
 
 **Non-goals:**
 - Change or interpret CSS values
+- Create a complicated API for timelines, sequences
 
 With this library, you can animate anything: CSS values, numbers in the DOM,
-scroll position, Canvas things, etc.
+scroll position, Canvas rendering, etc.
 
 Zero dependencies! Weighing in at 3.9kb (1kb gziped).
 
@@ -28,10 +31,11 @@ npm install @hot-page/easy
 ```javascript
 import { timer, cubicOut } from '@hot-page/easy'
 
-const ease = cubicOut(0, 100)
-timer(300, time => {
-  el.style.opacity = ease(time)
-}).then(() => console.log('Animation complete!'))
+// Create an easing function that moves from 0 to 1
+const ease = cubicOut(0, 1)
+// 300ms timer with a smooth update to opacity
+timer(300, time => el.style.opacity = ease(time))
+  .then(() => console.log('Animation complete!'))
 ```
 
 ## API
